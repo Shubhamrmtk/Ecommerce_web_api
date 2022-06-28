@@ -14,7 +14,8 @@ const verifiedToken=async(req,res,next)=>{
     const token=req.headers.authorization
   
       const userData=await prisma.user.findUnique({where:{id:parseInt(id)}})
-      console.log(token.split(" ")[1])
+      
+      // console.log(token.split(" ")[1])
       if(userData.token==token.split(" ")[1]){
         next()
       }else{
@@ -26,5 +27,12 @@ const verifiedToken=async(req,res,next)=>{
     res.send(error.message)
   }
 }
+const verifyTokenforpssword = async(Token)=>{
 
-module.exports={generateToken,verifiedToken}
+    let id = await jwt.verify(Token, "shubham")
+    return parseInt(id)
+
+}
+
+
+module.exports={generateToken,verifiedToken,verifyTokenforpssword}
